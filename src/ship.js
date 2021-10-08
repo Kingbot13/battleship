@@ -4,10 +4,11 @@ function ship(length){
     for (let i = 0; i < length; i++) {
         health.push("");
     };
-    const hit = () => {
-
+    const hit = (num) => {
+        return health.splice(num - 1, 1, "x")
     }
     const isSunk = () => {
 
     }
-}
+    return {health, hit(), isSunk()};
+};
