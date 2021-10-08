@@ -1,4 +1,5 @@
 import ship from "./ship";
+import ps from "./pubsub";
 
 test("hit(2) inserts x into battleship[1]", () => {
   const battleship = ship(5);
