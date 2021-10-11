@@ -12,5 +12,5 @@ test("gameboard correctly creates ships", () => {
 });
 
 test.skip("gameboard places ships horizontally on correct squares", () => {
-
-})
+    
+});
