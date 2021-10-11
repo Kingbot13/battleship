@@ -12,13 +12,13 @@ test("gameboard correctly creates ships", () => {
 });
 
 describe("gameboard places ships correctly", () => {
-    test("gameboard places ships horizontally starting at gb.board[0]", () => {
+    test("gameboard places ships horizontally starting at 0", () => {
         const player = gb(player);
         player.placeShip('horizontal', 0, player.carrier);
         expect(player.board.slice(0, 5)).toStrictEqual(['c', 'c', 'c', 'c', 'c']);
     });
 
-    test("gameboard places ships horizontally starting at gb.board[1]", () => {
+    test("gameboard places ships horizontally starting at 1", () => {
         const player = gb(player);
         player.placeShip('horizontal', 1, player.carrier);
         expect(player.board.slice(1, 6)).toStrictEqual(['c', 'c', 'c', 'c', 'c']);
