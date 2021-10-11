@@ -11,6 +11,8 @@ test("gameboard correctly creates ships", () => {
     expect(player.carrier.health.length).toBe(5);
 });
 
-test.skip("gameboard places ships horizontally on correct squares", () => {
-    
+test("gameboard places ships horizontally", () => {
+    const player = gb(player);
+    player.placeShip('horizontal', player.board[0], player.carrier);
+    expect(player.board.slice(0, 5)).toStrictEqual(['c', 'c', 'c', 'c', 'c']);
 });
