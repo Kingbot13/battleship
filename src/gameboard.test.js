@@ -27,6 +27,8 @@ describe("gameboard places ships correctly", () => {
     test("gameboard.placeShip throws error if ship exceeds edge of board", () => {
         const player = gb(player);
         expect(() => player.placeShip('horizontal', 5, player.carrier)).toThrow();
+        expect(() => player.placeShip('horizontal', 6, player.carrier)).toThrow();
+        expect(() => player.placeShip('horizontal', 36, player.carrier)).toThrow();
     });
-
+    
 })
