@@ -7,8 +7,8 @@ test("gameboard returns correct number of grid squares", () => {
 });
 
 test("gameboard correctly creates ships", () => {
-    const player = gb(ship, player);
-    expect(player.ships.carrier.health.length).toBe(5);
+    const player = gb(player);
+    expect(player.carrier.health.length).toBe(5);
 });
 
 test.skip("gameboard places ships horizontally on correct squares", () => {
