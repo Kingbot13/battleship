@@ -63,7 +63,7 @@ const gameBoard = (name) => {
       const filterBoard = board.filter(letter => letter === mark);
       return filterBoard.length;
     }
-    if (board[coordinate] !== "x" || "shot") {
+    if (board[coordinate] !== "x" && board[coordinate] !== "shot") {
       if (board[coordinate] === "") {
         board.splice(coordinate, 1, "shot");
       } else {

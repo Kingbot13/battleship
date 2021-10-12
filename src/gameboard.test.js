@@ -1,3 +1,4 @@
+import gameBoard from "./gameboard";
 import gb from "./gameboard";
 import ship from "./ship";
 
@@ -45,5 +46,26 @@ describe("gameboard places ships correctly", () => {
   test("gameboard.placeShip throws error if length of ship exceeds bottom of board", () => {
     const player = gb(player);
     expect(() => player.placeShip('vertical', 60, player.carrier)).toThrow();
+  });
+
+  test.skip("ships don't overlap", () => {
+    const player = gb(player);
+
+  })
+});
+
+describe("gameboard.receiveAttack correctly records attacks", () => {
+  beforeEach(() => {
+    const player = gb(player);
+    player.placeShip('horizontal', 0, player.carrier);
+    player.placeShip('horizontal', 11, player.battleship);
+    player.placeShip('horizontal', 23, player.destroyer);
+    player.placeShip('vertical', 20, player.submarine);
+    player.placeShip('vertical', 33, player.patrol);
+  });
+
+  test("receiveAttack marks missed attacks as 'shot'", () => {
+    player.receiveAttack(10);
+    expect(board[10]).toBe("shot");
   });
 });
