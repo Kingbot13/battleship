@@ -41,4 +41,9 @@ describe("gameboard places ships correctly", () => {
     }
     expect(copy).toStrictEqual(["c", "c", "c", "c", "c"]);
   });
+
+  test("gameboard.placeShip throws error if length of ship exceeds bottom of board", () => {
+    const player = gb(player);
+    expect(() => player.placeShip('vertical', 60, player.carrier)).toThrow();
+  });
 });
