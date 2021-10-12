@@ -59,25 +59,29 @@ const gameBoard = (name) => {
     };
   };
   const receiveAttack = (coordinate) => {
+    function damage(mark) {
+      const filterBoard = board.filter(letter => letter === mark);
+      return filterBoard.length;
+    }
     if (board[coordinate] !== "x" || "shot") {
       if (board[coordinate] === "") {
         board.splice(coordinate, 1, "shot");
       } else {
         switch (board[coordinate]) {
           case "c":
-            carrier.hit();
+            carrier.hit(damage("c"));
             break;
-          case battleship:
-            marker = "b";
+          case "b":
+            battleship.hit(damage("b"));
             break;
-          case destroyer:
-            marker = "d";
+          case "d":
+            destroyer.hit(damage("d"));
             break;
-          case submarine:
-            marker = "s";
+          case "s":
+            submarine.hit(damage("s"));
             break;
-          case patrol:
-            marker = "p";
+          case "p":
+            patrol.hit(damage("p"));
             break;
     
           default:
