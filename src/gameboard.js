@@ -47,8 +47,15 @@ const gameBoard = (name) => {
         throw new Error("illegal move. ship cannot pass edge of board!");
       }
     } else {
-      // temoparily return while testing horizontal placement
-      return;
+      // vertical placement
+      if (coordinate + ship.health.length * 10 <= 99) {
+        for (let i = 0; i < ship.health.length; i++) {
+          board.splice(coordinate + i * 10, 1, marker);
+        }
+        return board;
+      } else {
+        throw new Error("illegal move. ship cannot pass edge of board!");
+      };
     }
   };
   return {

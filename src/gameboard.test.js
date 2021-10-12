@@ -30,4 +30,15 @@ describe("gameboard places ships correctly", () => {
     expect(() => player.placeShip("horizontal", 6, player.carrier)).toThrow();
     expect(() => player.placeShip("horizontal", 36, player.carrier)).toThrow();
   });
+
+  test("gameboard.placeShip places ships vertically starting at [0]", () => {
+    const player = gb(player);
+    player.placeShip('vertical', 0, player.carrier);
+    // console.log('board:', player.board);
+    const copy = [];
+    for (let i = 0; i < player.carrier.health.length; i++) {
+      copy.push(player.board[i * 10]);
+    }
+    expect(copy).toStrictEqual(["c", "c", "c", "c", "c"]);
+  });
 });
