@@ -56,8 +56,38 @@ const gameBoard = (name) => {
       } else {
         throw new Error("illegal move. ship cannot pass edge of board!");
       };
-    }
+    };
   };
+  const receiveAttack = (coordinate) => {
+    if (board[coordinate] !== "x" || "shot") {
+      if (board[coordinate] === "") {
+        board.splice(coordinate, 1, "shot");
+      } else {
+        switch (board[coordinate]) {
+          case "c":
+            carrier.hit();
+            break;
+          case battleship:
+            marker = "b";
+            break;
+          case destroyer:
+            marker = "d";
+            break;
+          case submarine:
+            marker = "s";
+            break;
+          case patrol:
+            marker = "p";
+            break;
+    
+          default:
+            break;
+        }
+    
+        board.splice(coordinate, 1, "x");
+      }
+    }
+  }
   return {
     board,
     name,
@@ -67,6 +97,7 @@ const gameBoard = (name) => {
     submarine,
     patrol,
     placeShip,
+    receiveAttack,
   };
 };
 
