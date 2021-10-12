@@ -48,24 +48,24 @@ describe("gameboard places ships correctly", () => {
     expect(() => player.placeShip('vertical', 60, player.carrier)).toThrow();
   });
 
-  test.skip("ships don't overlap", () => {
+  test("throw error if ships overlap", () => {
     const player = gb(player);
-
-  })
+    player.placeShip('vertical', 0, player.battleship);
+    expect(() => player.placeShip('horizontal', 0, player.carrier)).toThrow();
+  });
 });
 
 describe("gameboard.receiveAttack correctly records attacks", () => {
-  beforeEach(() => {
-    const player = gb(player);
-    player.placeShip('horizontal', 0, player.carrier);
-    player.placeShip('horizontal', 11, player.battleship);
-    player.placeShip('horizontal', 23, player.destroyer);
-    player.placeShip('vertical', 20, player.submarine);
-    player.placeShip('vertical', 33, player.patrol);
-  });
+
+  const player = gb(player);
+  player.placeShip('horizontal', 0, player.carrier);
+  player.placeShip('horizontal', 11, player.battleship);
+  player.placeShip('horizontal', 23, player.destroyer);
+  player.placeShip('vertical', 20, player.submarine);
+  player.placeShip('vertical', 33, player.patrol);
 
   test("receiveAttack marks missed attacks as 'shot'", () => {
     player.receiveAttack(10);
-    expect(board[10]).toBe("shot");
+    expect(player.board[10]).toBe("shot");
   });
 });
