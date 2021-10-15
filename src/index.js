@@ -7,5 +7,8 @@ import player from './player';
     const playerBoard = gb(playerBoard);
     const computer = player(computer);
     const computerBoard = gb(computerBoard);
-    
+    // main loop
+    while(!playerBoard.shipsSunk && !computerBoard.shipsSunk) {
+        
+    }
 })();
