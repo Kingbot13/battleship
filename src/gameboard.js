@@ -95,6 +95,8 @@ const gameBoard = (name) => {
     
         board.splice(coordinate, 1, "x");
       }
+    } else {
+      throw new Error("Cannot attack the same square twice!");
     }
   }
   return {
