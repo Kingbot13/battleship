@@ -83,3 +83,26 @@ describe("gameboard.receiveAttack correctly records attacks", () => {
     expect(() => player.receiveAttack(5)).toThrow();
   })
 });
+
+describe("Gameboard reports sunken ships", () => {
+  const player = gb(player);
+  const ships = [
+    player.carrier, 
+    player.battleship,
+    player.destroyer,
+    player.submarine,
+    player.patrol
+  ];
+  ships.forEach((boat) => {
+    for (let i = 0; i < boat.health.length; i++) {
+      boat.health.splice(i, 1, 'x');
+    }
+  })
+
+  test("Gameboard alerts when all ships are sunk", () => {
+    player.receiveAttack(0);
+    const alert = jest.fn();
+    player.shipsSunk(alert);
+    expect(alert).toBeCalled();
+  })
+})
