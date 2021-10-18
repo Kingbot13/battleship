@@ -2,6 +2,7 @@ import gb from './gameboard';
 import ship from './ship';
 import player from './player';
 import grid from './grid-gen';
+import './style.css';
 
 const game = (() => {
     const player1 = player(player1);
