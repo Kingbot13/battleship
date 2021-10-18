@@ -13,6 +13,9 @@ const game = (() => {
     document.body.appendChild(display);
     display.id = 'display';
     display.append(grid(playerBoard.board.length), grid(computerBoard.board.length));
+    // WARNING: potential bug could arise here if number of display children changes
+    const grid1 = display.firstChild
+    const grid2 = display.lastChild
     // temporarily hardcode ships into place
     playerBoard.placeShip('horizontal', 0, playerBoard.carrier);
     playerBoard.placeShip('horizontal', 10, playerBoard.battleship);
@@ -24,14 +27,22 @@ const game = (() => {
     computerBoard.placeShip('horizontal', 20, computerBoard.destroyer);
     computerBoard.placeShip('horizontal', 30, computerBoard.submarine);
     computerBoard.placeShip('horizontal', 40, computerBoard.patrol);
+    for (let i = 0; i < grid1.childNodes.length; i++) {
+        grid1.childNodes[i].classList.add('player-grid');
+        if (playerBoard.board[i] !== "") {
+            grid1.childNodes[i].classList.add('ship');
+        }
+    };
+    for (let i = 0; i < grid2.childNodes.length; i++) {
+        grid2.childNodes[i].classList.add('computer-grid');
+        // temporarily display positions of computer ships for testing
+        if (computerBoard.board[i] !== "") {
+            grid1.childNodes[i].classList.add('ship');
+        }
+
+    };
     // main loop
     while(!playerBoard.shipsSunk && !computerBoard.shipsSunk) {
-        computerBoard.board.forEach((item) => {
-            item.classList.add('computer-grid');
-        });
-        playerBoard.board.forEach((item) => {
-            item.classList.add('player-grid');
-        });
         // set first player to make first move
         if (!player1.isTurn && !computer.isTurn) {
             player1.isTurn = true;

@@ -71,6 +71,7 @@ const gameBoard = (name) => {
     }
     if (board[coordinate] !== "x" && board[coordinate] !== "shot") {
       if (board[coordinate] === "") {
+        board[coordinate].classList.add('miss');
         board.splice(coordinate, 1, "shot");
       } else {
         switch (board[coordinate]) {
@@ -93,7 +94,8 @@ const gameBoard = (name) => {
           default:
             break;
         }
-    
+        
+        board[coordinate].classList.add('hit');
         board.splice(coordinate, 1, "x");
         if (battleship.isSunk() && carrier.isSunk() && destroyer.isSunk() && submarine.isSunk() && patrol.isSunk()) {
           shipsSunk = true;

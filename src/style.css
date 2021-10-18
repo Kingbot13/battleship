@@ -31,7 +31,17 @@ body{
     margin: auto;
 }
 
+.ship{
+    background-color: gray;
+}
 
+.hit{
+    background-color: red;
+}
+
+.miss{
+    background-color: green;
+}
 
 #display{
     display: flex;
