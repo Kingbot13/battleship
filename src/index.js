@@ -37,7 +37,6 @@ const game = (() => {
         if (computerBoard.board[i] !== "") {
             grid2.childNodes[i].classList.add('ship');
         }
-
     };
     // main loop
     // while(!playerBoard.shipsSunk && !computerBoard.shipsSunk) {
@@ -46,13 +45,17 @@ const game = (() => {
         if (!player1.isTurn && !computer.isTurn) {
             player1.isTurn = true;
         }
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', function el(e) {
             if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
                 computerBoard.receiveAttack(e.target.dataset.id);
                 if (e.target.classList.contains('ship')) {
                     e.target.classList.toggle('hit');
                 } else {
                     e.target.classList.toggle('miss');
+                }
+                if (computerBoard.shipsSunk) {
+                    alert('player wins!');
+                    document.removeEventListener('click', el);
                 }
                 player1.isTurn = false;
                 computer.isTurn = true;
@@ -62,6 +65,10 @@ const game = (() => {
                     e.target.classList.toggle('miss');
                 } else {
                     e.target.classList.toggle('hit');
+                }
+                if (playerBoard.shipsSunk) {
+                    alert('computer wins!');
+                    document.removeEventListener('click', el);
                 }
 
                 player1.isTurn = true;
@@ -73,10 +80,8 @@ const game = (() => {
                 throw new Error("something wrong with event listener");
             }
         });
+
     }
-    // }
-    // test when exiting while loop
-    console.log('game finished');
     return {play};
 })();
 
