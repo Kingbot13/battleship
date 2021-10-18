@@ -3,7 +3,7 @@ import ship from './ship';
 import player from './player';
 import grid from './grid-gen';
 
-(() => {
+const game = (() => {
     const player1 = player(player1);
     const playerBoard = gb(playerBoard);
     const computer = player(computer);
@@ -50,3 +50,5 @@ import grid from './grid-gen';
         });
     }
 })();
+
+game();
