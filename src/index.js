@@ -9,9 +9,8 @@ const game = (() => {
     const playerBoard = gb(playerBoard);
     const computer = player(computer);
     const computerBoard = gb(computerBoard);
-    const display = document.createElement('div');
-    document.body.appendChild(display);
-    display.id = 'display';
+    const display = document.getElementById('display');
+    // document.body.appendChild(display);
     display.append(grid(playerBoard.board.length), grid(computerBoard.board.length));
     // WARNING: potential bug could arise here if number of display children changes
     const grid1 = display.firstChild
@@ -37,30 +36,49 @@ const game = (() => {
         grid2.childNodes[i].classList.add('computer-grid');
         // temporarily display positions of computer ships for testing
         if (computerBoard.board[i] !== "") {
-            grid1.childNodes[i].classList.add('ship');
+            grid2.childNodes[i].classList.add('ship');
         }
 
     };
     // main loop
-    while(!playerBoard.shipsSunk && !computerBoard.shipsSunk) {
-        // set first player to make first move
+    // while(!playerBoard.shipsSunk && !computerBoard.shipsSunk) {
+    //     // set first player to make first move
+    const play = () => {
         if (!player1.isTurn && !computer.isTurn) {
             player1.isTurn = true;
         }
         document.addEventListener('click', (e) => {
-            if (e.target && e.target.className === 'computer-grid' && player1.isTurn) {
-                computerBoard.receiveAttack(e.dataset.id);
+            if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
+                computerBoard.receiveAttack(e.target.dataset.id);
+                if (e.target.classList.contains('ship')) {
+                    e.target.classList.toggle('hit');
+                } else {
+                    e.target.classList.toggle('miss');
+                }
                 player1.isTurn = false;
                 computer.isTurn = true;
-            } else if (e.target && e.target.className === 'player-grid' && computer.isTurn) {
-                playerBoard.receiveAttack(e.dataset.id);
+            } else if (e.target && e.target.classList.contains('player-grid') && computer.isTurn) {
+                playerBoard.receiveAttack(e.target.dataset.id);
+                if (playerBoard.board[e.target.textContent] === "") {
+                    e.target.classList.toggle('miss');
+                } else {
+                    e.target.classList.toggle('hit');
+                }
+
                 player1.isTurn = true;
                 computer.isTurn = false;
             } else {
+                console.log(e.target.dataset.id);
+                console.log(player1.isTurn);
+                console.log(e.target.className);
                 throw new Error("something wrong with event listener");
             }
         });
     }
+    // }
+    // test when exiting while loop
+    console.log('game finished');
+    return {play};
 })();
 
-game();
+game.play();
