@@ -25,16 +25,28 @@ import grid from './grid-gen';
     computerBoard.placeShip('horizontal', 40, computerBoard.patrol);
     // main loop
     while(!playerBoard.shipsSunk && !computerBoard.shipsSunk) {
+        computerBoard.board.forEach((item) => {
+            item.classList.add('computer-grid');
+        });
+        playerBoard.board.forEach((item) => {
+            item.classList.add('player-grid');
+        });
         // set first player to make first move
         if (!player1.isTurn && !computer.isTurn) {
             player1.isTurn = true;
         }
-        if (player1.isTurn) {
-            computerBoard.board.forEach((item) => {
-                item.addEventListener('click', () => {
-                    computerBoard.receiveAttack(item.dataset.id);
-                });
-            })
-        }
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.className === 'computer-grid' && player1.isTurn) {
+                computerBoard.receiveAttack(e.dataset.id);
+                player1.isTurn = false;
+                computer.isTurn = true;
+            } else if (e.target && e.target.className === 'player-grid' && computer.isTurn) {
+                playerBoard.receiveAttack(e.dataset.id);
+                player1.isTurn = true;
+                computer.isTurn = false;
+            } else {
+                throw new Error("something wrong with event listener");
+            }
+        });
     }
 })();
