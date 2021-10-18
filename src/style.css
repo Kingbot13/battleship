@@ -15,17 +15,23 @@ body{
 
 .grid-container{
     display: grid;
-    height: 25rem;
-    width: 25rem;
+    /* height: 25rem;
+    width: 25rem; */
     grid-template-columns: repeat(10, auto);
     grid-template-rows: repeat(10, auto);
+    gap: 0;
+    justify-content: space-between;
+    margin: auto;
 }
 
 .grid-item{
     border: 2px solid black ;
     height: 2rem;
     width: 2rem;
+    margin: auto;
 }
+
+
 
 #display{
     display: flex;
