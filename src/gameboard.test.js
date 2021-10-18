@@ -1,4 +1,3 @@
-import gameBoard from "./gameboard";
 import gb from "./gameboard";
 import ship from "./ship";
 
@@ -68,4 +67,42 @@ describe("gameboard.receiveAttack correctly records attacks", () => {
     player.receiveAttack(10);
     expect(player.board[10]).toBe("shot");
   });
+
+  test("receiveAttack marks hits as 'x'", () => {
+    player.receiveAttack(0);
+    expect(player.board[0]).toBe('x');
+  });
+
+  test("receiveAttack sends correct info to ship.hit()", () => {
+    player.receiveAttack(11);
+    expect(player.battleship.health[3]).toBe('x');
+  });
+
+  test("receiveAttack throws error if attacking a previously attacked square", () => {
+    player.receiveAttack(5);
+    expect(() => player.receiveAttack(5)).toThrow();
+  })
 });
+
+describe("Gameboard reports sunken ships", () => {
+  const player = gb(player);
+  const ships = [
+    player.carrier, 
+    player.battleship,
+    player.destroyer,
+    player.submarine,
+    player.patrol
+  ];
+  ships.forEach((boat) => {
+    for (let i = 0; i < boat.health.length; i++) {
+      boat.health.splice(i, 1, 'x');
+    }
+  })
+
+  test("Gameboard alerts when all ships are sunk", () => {
+    player.receiveAttack(0);
+    const alert = jest.fn();
+    player.shipsSunk(alert);
+    expect(alert).toBeCalled();
+  })
+})

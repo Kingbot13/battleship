@@ -1,6 +1,7 @@
 import ship from "./ship";
 
 const gameBoard = (name) => {
+  let shipsSunk = false
   const board = [];
   for (let i = 0; i < 100; i++) {
     board.push("");
@@ -94,7 +95,12 @@ const gameBoard = (name) => {
         }
     
         board.splice(coordinate, 1, "x");
+        if (battleship.isSunk() && carrier.isSunk() && destroyer.isSunk() && submarine.isSunk() && patrol.isSunk()) {
+          shipsSunk = true;
+        };
       }
+    } else {
+      throw new Error("Cannot attack the same square twice!");
     }
   }
   return {
@@ -107,6 +113,7 @@ const gameBoard = (name) => {
     patrol,
     placeShip,
     receiveAttack,
+    shipsSunk
   };
 };
 
