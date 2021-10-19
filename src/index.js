@@ -2,6 +2,7 @@ import gb from './gameboard';
 import player from './player';
 import grid from './grid-gen';
 import './style.css';
+import ai from './computer';
 
 const game = (() => {
     const player1 = player(player1);
@@ -38,9 +39,6 @@ const game = (() => {
             grid2.childNodes[i].classList.add('ship');
         }
     };
-    // main loop
-    // while(!playerBoard.shipsSunk && !computerBoard.shipsSunk) {
-    //     // set first player to make first move
     const play = () => {
         if (!player1.isTurn && !computer.isTurn) {
             player1.isTurn = true;
@@ -59,6 +57,12 @@ const game = (() => {
                 }
                 player1.isTurn = false;
                 computer.isTurn = true;
+                // simulate mouse click.. grab random div from player board to simulate click
+                // could change ai to only return random number and use number to grab div and simulate click
+                /* 
+                    list = document.queryselectAll(div.player-grid);
+                    list[ai()].click()
+                */
             } else if (e.target && e.target.classList.contains('player-grid') && computer.isTurn) {
                 playerBoard.receiveAttack(e.target.dataset.id);
                 if (playerBoard.board[e.target.textContent] === "") {
@@ -74,9 +78,9 @@ const game = (() => {
                 player1.isTurn = true;
                 computer.isTurn = false;
             } else {
-                console.log(e.target.dataset.id);
-                console.log(player1.isTurn);
-                console.log(e.target.className);
+                // console.log(e.target.dataset.id);
+                // console.log(player1.isTurn);
+                // console.log(e.target.className);
                 throw new Error("something wrong with event listener");
             }
         });
