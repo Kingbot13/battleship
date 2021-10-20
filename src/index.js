@@ -40,9 +40,18 @@ const game = (() => {
         }
     };
     const play = () => {
+        const list = document.querySelectorAll('div.player-grid');
+        console.log('list', list);
+        let shuffleList = [];
+        while (shuffleList.length < 100) {
+            let r = Math.floor(Math.random() * 99) + 1;
+            if(shuffleList.indexOf(r) === -1) shuffleList.push(r);
+        }
+        console.log('shuffle', shuffleList);
         if (!player1.isTurn && !computer.isTurn) {
             player1.isTurn = true;
         }
+        let i = 0;
         document.addEventListener('click', function el(e) {
             if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
                 computerBoard.receiveAttack(e.target.dataset.id);
@@ -63,6 +72,9 @@ const game = (() => {
                     list = document.queryselectAll(div.player-grid);
                     list[ai()].click()
                 */
+               list[shuffleList[i]].click();
+               i++;
+                console.log(i);
             } else if (e.target && e.target.classList.contains('player-grid') && computer.isTurn) {
                 playerBoard.receiveAttack(e.target.dataset.id);
                 if (playerBoard.board[e.target.textContent] === "") {
