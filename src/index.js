@@ -40,6 +40,12 @@ const game = (() => {
         }
     };
     const play = () => {
+        // grab all player 1 squares for computer to select
+        let nodelist = document.querySelectorAll('div.player-grid');
+        let listCopy = [];
+        for (let i = 0; i < nodelist.length; i++) {
+            listCopy.push(nodelist[i]);
+        }
         if (!player1.isTurn && !computer.isTurn) {
             player1.isTurn = true;
         }
@@ -57,15 +63,14 @@ const game = (() => {
                 }
                 player1.isTurn = false;
                 computer.isTurn = true;
-                // simulate mouse click.. grab random div from player board to simulate click
-                // could change ai to only return random number and use number to grab div and simulate click
-                /* 
-                    list = document.queryselectAll(div.player-grid);
-                    list[ai()].click()
-                */
+                
+                let i = ai(0, listCopy.length);
+                listCopy[i].click();
+                listCopy.splice(i, 1);
+
             } else if (e.target && e.target.classList.contains('player-grid') && computer.isTurn) {
                 playerBoard.receiveAttack(e.target.dataset.id);
-                if (playerBoard.board[e.target.textContent] === "") {
+                if (playerBoard.board[e.target.dataset.id] === "shot") {
                     e.target.classList.toggle('miss');
                 } else {
                     e.target.classList.toggle('hit');
@@ -74,13 +79,11 @@ const game = (() => {
                     alert('computer wins!');
                     document.removeEventListener('click', el);
                 }
+                console.log('player:', playerBoard.board[e.target.dataset.id]);
 
                 player1.isTurn = true;
                 computer.isTurn = false;
             } else {
-                // console.log(e.target.dataset.id);
-                // console.log(player1.isTurn);
-                // console.log(e.target.className);
                 throw new Error("something wrong with event listener");
             }
         });
