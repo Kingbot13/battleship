@@ -50,6 +50,11 @@ const game = (() => {
             player1.isTurn = true;
         }
         document.addEventListener('click', function el(e) {
+            // wait until ships are placed before continuing
+            let playerShips = 0;
+            while (playerShips < 5) {
+                // implement loop code here
+            }
             if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
                 computerBoard.receiveAttack(e.target.dataset.id);
                 if (e.target.classList.contains('ship')) {
