@@ -16,11 +16,12 @@ const game = (() => {
     const grid1 = display.firstChild
     const grid2 = display.lastChild
     // temporarily hardcode ships into place
-    playerBoard.placeShip('horizontal', 0, playerBoard.carrier);
+/*     playerBoard.placeShip('horizontal', 0, playerBoard.carrier);
     playerBoard.placeShip('horizontal', 10, playerBoard.battleship);
     playerBoard.placeShip('horizontal', 20, playerBoard.destroyer);
     playerBoard.placeShip('horizontal', 30, playerBoard.submarine);
     playerBoard.placeShip('horizontal', 40, playerBoard.patrol);
+ */    
     computerBoard.placeShip('horizontal', 0, computerBoard.carrier);
     computerBoard.placeShip('horizontal', 10, computerBoard.battleship);
     computerBoard.placeShip('horizontal', 20, computerBoard.destroyer);
@@ -52,8 +53,14 @@ const game = (() => {
         document.addEventListener('click', function el(e) {
             // wait until ships are placed before continuing
             let playerShips = 0;
+            const shipList = [playerBoard.carrier, playerBoard.battleship, playerBoard.destroyer, playerBoard.submarine, playerBoard.patrol];
             while (playerShips < 5) {
                 // implement loop code here
+                if (e.target && e.target.classList.contains('player-grid')) {
+                    playerBoard.placeShip('horizontal', e.target.dataset.id, shipList[playerShips]);
+                }
+                playerShips++;
+
             }
             if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
                 computerBoard.receiveAttack(e.target.dataset.id);
