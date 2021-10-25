@@ -56,13 +56,43 @@ const game = (() => {
             let playerShips = 0;
             const shipList = [playerBoard.carrier, playerBoard.battleship, playerBoard.destroyer, playerBoard.submarine, playerBoard.patrol];
             if (e.target && e.target.classList.contains('player-grid') && playerShips < 5) {
-                playerBoard.placeShip('horizontal', e.target.dataset.id, shipList[playerShips]);
+                switch (playerShips) {
+                    case 0:
+                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.carrier);
+                        playerShips++;
+                        break;
+                    case 1:
+                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.battleship);
+                        playerShips++;
+                        break;
+                    case 2:
+                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.destroyer);
+                        playerShips++;
+                        break;
+                    case 3:
+                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.submarine);
+                        playerShips++;
+                        break;
+                    case 4:
+                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.patrol);
+                        playerShips++;
+                        break;
+                
+                    default:
+                        throw new Error("Switch error");
+                        // break;
+                }
+                // playerBoard.placeShip('horizontal', e.target.dataset.id, shipList[playerShips]);
+                console.log(e.target.dataset.id);
+                console.log(e.target);
+                // console.log(shipList[playerShips]);
+                console.log(playerBoard.board);
                 for (let i = 0; i < grid1.childNodes.length; i++) {
-                    grid1.childNodes[i].classList.add('player-grid');
                     if (playerBoard.board[i] !== "") {
                         grid1.childNodes[i].classList.add('ship');
                     }
                 };
+                playerShips++;
             } else {
                 if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
                     computerBoard.receiveAttack(e.target.dataset.id);
