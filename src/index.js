@@ -29,9 +29,9 @@ const game = (() => {
     computerBoard.placeShip('horizontal', 40, computerBoard.patrol);
     for (let i = 0; i < grid1.childNodes.length; i++) {
         grid1.childNodes[i].classList.add('player-grid');
-        if (playerBoard.board[i] !== "") {
-            grid1.childNodes[i].classList.add('ship');
-        }
+        // if (playerBoard.board[i] !== "") {
+        //     grid1.childNodes[i].classList.add('ship');
+        // }
     };
     for (let i = 0; i < grid2.childNodes.length; i++) {
         grid2.childNodes[i].classList.add('computer-grid');
@@ -43,6 +43,7 @@ const game = (() => {
     const play = () => {
         // grab all player 1 squares for computer to select
         let nodelist = document.querySelectorAll('div.player-grid');
+        // create copy that can be mutated
         let listCopy = [];
         for (let i = 0; i < nodelist.length; i++) {
             listCopy.push(nodelist[i]);
@@ -54,50 +55,62 @@ const game = (() => {
             // wait until ships are placed before continuing
             let playerShips = 0;
             const shipList = [playerBoard.carrier, playerBoard.battleship, playerBoard.destroyer, playerBoard.submarine, playerBoard.patrol];
-            while (playerShips < 5) {
-                // implement loop code here
-                if (e.target && e.target.classList.contains('player-grid')) {
-                    playerBoard.placeShip('horizontal', e.target.dataset.id, shipList[playerShips]);
-                }
-                playerShips++;
-
-            }
-            if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
-                computerBoard.receiveAttack(e.target.dataset.id);
-                if (e.target.classList.contains('ship')) {
-                    e.target.classList.toggle('hit');
-                } else {
-                    e.target.classList.toggle('miss');
-                }
-                if (computerBoard.shipsSunk) {
-                    alert('player wins!');
-                    document.removeEventListener('click', el);
-                }
-                player1.isTurn = false;
-                computer.isTurn = true;
-                
-                let i = ai(0, listCopy.length);
-                listCopy[i].click();
-                listCopy.splice(i, 1);
-
-            } else if (e.target && e.target.classList.contains('player-grid') && computer.isTurn) {
-                playerBoard.receiveAttack(e.target.dataset.id);
-                if (playerBoard.board[e.target.dataset.id] === "shot") {
-                    e.target.classList.toggle('miss');
-                } else {
-                    e.target.classList.toggle('hit');
-                }
-                if (playerBoard.shipsSunk) {
-                    alert('computer wins!');
-                    document.removeEventListener('click', el);
-                }
-                console.log('player:', playerBoard.board[e.target.dataset.id]);
-
-                player1.isTurn = true;
-                computer.isTurn = false;
+            if (e.target && e.target.classList.contains('player-grid') && playerShips < 5) {
+                playerBoard.placeShip('horizontal', e.target.dataset.id, shipList[playerShips]);
+                for (let i = 0; i < grid1.childNodes.length; i++) {
+                    grid1.childNodes[i].classList.add('player-grid');
+                    if (playerBoard.board[i] !== "") {
+                        grid1.childNodes[i].classList.add('ship');
+                    }
+                };
             } else {
-                throw new Error("something wrong with event listener");
+                if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
+                    computerBoard.receiveAttack(e.target.dataset.id);
+                    if (e.target.classList.contains('ship')) {
+                        e.target.classList.toggle('hit');
+                    } else {
+                        e.target.classList.toggle('miss');
+                    }
+                    if (computerBoard.shipsSunk) {
+                        alert('player wins!');
+                        document.removeEventListener('click', el);
+                    }
+                    player1.isTurn = false;
+                    computer.isTurn = true;
+                    
+                    let i = ai(0, listCopy.length);
+                    listCopy[i].click();
+                    listCopy.splice(i, 1);
+    
+                } else if (e.target && e.target.classList.contains('player-grid') && computer.isTurn) {
+                    playerBoard.receiveAttack(e.target.dataset.id);
+                    if (playerBoard.board[e.target.dataset.id] === "shot") {
+                        e.target.classList.toggle('miss');
+                    } else {
+                        e.target.classList.toggle('hit');
+                    }
+                    if (playerBoard.shipsSunk) {
+                        alert('computer wins!');
+                        document.removeEventListener('click', el);
+                    }
+                    console.log('player:', playerBoard.board[e.target.dataset.id]);
+    
+                    player1.isTurn = true;
+                    computer.isTurn = false;
+                } else {
+                    throw new Error("something wrong with event listener");
+                }
+    
             }
+            // while (playerShips < 5) {
+                 // implement loop code here
+                
+            //     } else {
+            //         throw new Error ("While loop error");
+            //     }
+            //     playerShips++;
+
+            // }
         });
 
     }
