@@ -51,9 +51,9 @@ const game = (() => {
         if (!player1.isTurn && !computer.isTurn) {
             player1.isTurn = true;
         }
+        let playerShips = 0;
         document.addEventListener('click', function el(e) {
             // wait until ships are placed before continuing
-            let playerShips = 0;
             const shipList = [playerBoard.carrier, playerBoard.battleship, playerBoard.destroyer, playerBoard.submarine, playerBoard.patrol];
             if (e.target && e.target.classList.contains('player-grid') && playerShips < 5) {
                 switch (playerShips) {
@@ -82,9 +82,10 @@ const game = (() => {
                         throw new Error("Switch error");
                         // break;
                 }
+                console.log(playerShips);
                 // playerBoard.placeShip('horizontal', e.target.dataset.id, shipList[playerShips]);
-                console.log(e.target.dataset.id);
-                console.log(e.target);
+                // console.log(e.target.dataset.id);
+                // console.log(e.target);
                 // console.log(shipList[playerShips]);
                 console.log(playerBoard.board);
                 for (let i = 0; i < grid1.childNodes.length; i++) {
@@ -92,7 +93,6 @@ const game = (() => {
                         grid1.childNodes[i].classList.add('ship');
                     }
                 };
-                playerShips++;
             } else {
                 if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
                     computerBoard.receiveAttack(e.target.dataset.id);
