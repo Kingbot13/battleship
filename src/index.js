@@ -10,28 +10,18 @@ const game = (() => {
     const computer = player(computer);
     const computerBoard = gb(computerBoard);
     const display = document.getElementById('display');
-    // document.body.appendChild(display);
     display.append(grid(playerBoard.board.length), grid(computerBoard.board.length));
     // WARNING: potential bug could arise here if number of display children changes
     const grid1 = display.firstChild
     const grid2 = display.lastChild
-    // temporarily hardcode ships into place
-/*     playerBoard.placeShip('horizontal', 0, playerBoard.carrier);
-    playerBoard.placeShip('horizontal', 10, playerBoard.battleship);
-    playerBoard.placeShip('horizontal', 20, playerBoard.destroyer);
-    playerBoard.placeShip('horizontal', 30, playerBoard.submarine);
-    playerBoard.placeShip('horizontal', 40, playerBoard.patrol);
- */    
-    computerBoard.placeShip('horizontal', 0, computerBoard.carrier);
-    computerBoard.placeShip('horizontal', 10, computerBoard.battleship);
-    computerBoard.placeShip('horizontal', 20, computerBoard.destroyer);
-    computerBoard.placeShip('horizontal', 30, computerBoard.submarine);
-    computerBoard.placeShip('horizontal', 40, computerBoard.patrol);
+    // temporarily hardcode ships into place    
+    // computerBoard.placeShip('horizontal', 0, computerBoard.carrier);
+    // computerBoard.placeShip('horizontal', 10, computerBoard.battleship);
+    // computerBoard.placeShip('horizontal', 20, computerBoard.destroyer);
+    // computerBoard.placeShip('horizontal', 30, computerBoard.submarine);
+    // computerBoard.placeShip('horizontal', 40, computerBoard.patrol);
     for (let i = 0; i < grid1.childNodes.length; i++) {
         grid1.childNodes[i].classList.add('player-grid');
-        // if (playerBoard.board[i] !== "") {
-        //     grid1.childNodes[i].classList.add('ship');
-        // }
     };
     for (let i = 0; i < grid2.childNodes.length; i++) {
         grid2.childNodes[i].classList.add('computer-grid');
@@ -57,9 +47,10 @@ const game = (() => {
             player1.isTurn = true;
         }
         let playerShips = 0;
+        let computerShips = 0;
         document.addEventListener('click', function el(e) {
             // wait until ships are placed before continuing
-            const shipList = [playerBoard.carrier, playerBoard.battleship, playerBoard.destroyer, playerBoard.submarine, playerBoard.patrol];
+            const shipList = [computerBoard.carrier, computerBoard.battleship, computerBoard.destroyer, computerBoard.submarine, computerBoard.patrol];
             if (e.target && e.target.classList.contains('player-grid') && playerShips < 5) {
                 switch (playerShips) {
                     case 0:
@@ -85,19 +76,52 @@ const game = (() => {
                 
                     default:
                         throw new Error("Switch error");
-                        // break;
                 }
-                console.log(playerShips);
-                // playerBoard.placeShip('horizontal', e.target.dataset.id, shipList[playerShips]);
-                // console.log(e.target.dataset.id);
-                // console.log(e.target);
-                // console.log(shipList[playerShips]);
-                console.log(playerBoard.board);
                 for (let i = 0; i < grid1.childNodes.length; i++) {
                     if (playerBoard.board[i] !== "") {
                         grid1.childNodes[i].classList.add('ship');
                     }
                 };
+            } else if (computerShips < 5 && playerShips >= 5) {
+                const legalPlacement = (arr, location, direction, shipLength) => {
+                    const locationStr = location.toString();
+                    const curr = arr[location];
+                    if (direction === 'horizontal') {
+                        if (parseInt(locationStr[locationStr.length - 1]) + shipLength <= 9) {
+                            for (let i = 0; i < shipLength; i++) {
+                                if (curr + i !== "") {
+                                    return false;
+    
+                                } 
+                            }
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+                for (computerShips; computerShips < shipList.length; computerShips++) {
+                    // randomly decide direction
+                    try {
+                        let boardCopy = computerBoard.board.filter((square) => square === "");
+                        let computerDirection = Math.random() >= 0.5 ? 'horizontal' : 'vertical';
+                        let location = ai(0, boardCopy.length);
+                        computerBoard.placeShip(computerDirection, ai(0, location), shipList[computerShips]);
+                        computerShips++;
+                    } catch (err) {
+                        computerShips--;
+                        console.log(err);
+                    }
+                    
+                }
+                for (let i = 0; i < grid2.childNodes.length; i++) {
+                    // temporarily display positions of computer ships for testing
+                    if (computerBoard.board[i] !== "") {
+                        grid2.childNodes[i].classList.add('ship');
+                    }
+                };
+            
+
             } else {
                 if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
                     computerBoard.receiveAttack(e.target.dataset.id);
@@ -112,7 +136,7 @@ const game = (() => {
                     }
                     player1.isTurn = false;
                     computer.isTurn = true;
-                    
+                    // grab random square and simulate click, then remove square from array
                     let i = ai(0, listCopy.length);
                     listCopy[i].click();
                     listCopy.splice(i, 1);
@@ -128,8 +152,6 @@ const game = (() => {
                         alert('computer wins!');
                         document.removeEventListener('click', el);
                     }
-                    console.log('player:', playerBoard.board[e.target.dataset.id]);
-    
                     player1.isTurn = true;
                     computer.isTurn = false;
                 } else {
@@ -137,15 +159,6 @@ const game = (() => {
                 }
     
             }
-            // while (playerShips < 5) {
-                 // implement loop code here
-                
-            //     } else {
-            //         throw new Error ("While loop error");
-            //     }
-            //     playerShips++;
-
-            // }
         });
 
     }
