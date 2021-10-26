@@ -41,6 +41,11 @@ const game = (() => {
         }
     };
     const play = () => {
+        const directionBtn = document.getElementById('direction');
+        directionBtn.addEventListener('click', () => {
+            directionBtn.textContent === 'Horizontal' ? directionBtn.textContent === 'Vertical'
+            : directionBtn.textContent === 'Horizontal'
+        })
         // grab all player 1 squares for computer to select
         let nodelist = document.querySelectorAll('div.player-grid');
         // create copy that can be mutated
@@ -58,23 +63,23 @@ const game = (() => {
             if (e.target && e.target.classList.contains('player-grid') && playerShips < 5) {
                 switch (playerShips) {
                     case 0:
-                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.carrier);
+                        playerBoard.placeShip(directionBtn.textContent, parseInt(e.target.dataset.id), playerBoard.carrier);
                         playerShips++;
                         break;
                     case 1:
-                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.battleship);
+                        playerBoard.placeShip(directionBtn.textContent, parseInt(e.target.dataset.id), playerBoard.battleship);
                         playerShips++;
                         break;
                     case 2:
-                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.destroyer);
+                        playerBoard.placeShip(directionBtn.textContent, parseInt(e.target.dataset.id), playerBoard.destroyer);
                         playerShips++;
                         break;
                     case 3:
-                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.submarine);
+                        playerBoard.placeShip(directionBtn.textContent, parseInt(e.target.dataset.id), playerBoard.submarine);
                         playerShips++;
                         break;
                     case 4:
-                        playerBoard.placeShip('horizontal', parseInt(e.target.dataset.id), playerBoard.patrol);
+                        playerBoard.placeShip(directionBtn.textContent, parseInt(e.target.dataset.id), playerBoard.patrol);
                         playerShips++;
                         break;
                 
