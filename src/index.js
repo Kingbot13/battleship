@@ -58,7 +58,6 @@ const game = (() => {
         }
         let playerShips = 0;
         document.addEventListener('click', function el(e) {
-            // let direction = directionBtn.textContent
             // wait until ships are placed before continuing
             const shipList = [playerBoard.carrier, playerBoard.battleship, playerBoard.destroyer, playerBoard.submarine, playerBoard.patrol];
             if (e.target && e.target.classList.contains('player-grid') && playerShips < 5) {
