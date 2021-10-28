@@ -83,26 +83,19 @@ const game = (() => {
                     }
                 };
             } else if (computerShips < 5 && playerShips >= 5) {
-               // for (computerShips; computerShips < shipList.length; computerShips++) {
-                    // randomly decide direction
+                // note for later: combine this code with if statement above so that it runs after finishing player setup
                 while (computerShips < 5) {
                     let boardCopy = computerBoard.board.filter((square) => square === "");
+                    // randomly decide direction
                     let computerDirection = Math.random() >= 0.5 ? 'horizontal' : 'vertical';
                     let location = ai(0, boardCopy.length);
                     if (computerBoard.legalPlacement(boardCopy, location, computerDirection, shipList[computerShips].health.length)) {
                         computerBoard.placeShip(computerDirection, location, shipList[computerShips]);
                         computerShips++;
-                        console.log('ship placed');
                     } else {
-                        // computerShips--;
-                        // console.log(err);
-                        console.log('skipped');
                         continue;
                     }
-
                 }
-                    
-              //  }
                 for (let i = 0; i < grid2.childNodes.length; i++) {
                     // temporarily display positions of computer ships for testing
                     if (computerBoard.board[i] !== "") {
