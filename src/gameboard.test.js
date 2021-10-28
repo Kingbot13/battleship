@@ -112,6 +112,6 @@ describe("Gameboard reports legal ship placement", () => {
   const computer = gb(computer);
 
   test("Gameboard returns true if ship placement is legal", () => {
-    expect(computer.legalPlacement(computer.legalPlacement(computer.board, 1, 'horizontal', 5))).toBe(true);
+    expect(computer.legalPlacement(computer.board, 2, 'horizontal', 5)).toBe(true);
   })
 })

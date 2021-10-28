@@ -111,7 +111,7 @@ const gameBoard = (name) => {
     if (direction === 'horizontal') {
         if (parseInt(locationStr[locationStr.length - 1]) + shipLength <= 9) {
             for (let i = 0; i < shipLength; i++) {
-                if (curr + i !== "") {
+                if (curr + arr[i] !== "") {
                     return false;
 
                 } 
@@ -121,7 +121,7 @@ const gameBoard = (name) => {
             return false;
         }
     }
-}
+  }
 
   return {
     board,
