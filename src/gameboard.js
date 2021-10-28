@@ -102,6 +102,27 @@ const gameBoard = (name) => {
       throw new Error("Cannot attack the same square twice!");
     }
   }
+  const legalPlacement = (arr, location, direction, shipLength) => {
+    console.log('location', location);
+    console.log(location.toString())
+    let locationStr = location.toString();
+    console.log(locationStr);
+    const curr = arr[location];
+    if (direction === 'horizontal') {
+        if (parseInt(locationStr[locationStr.length - 1]) + shipLength <= 9) {
+            for (let i = 0; i < shipLength; i++) {
+                if (curr + i !== "") {
+                    return false;
+
+                } 
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
   return {
     board,
     name,
@@ -112,7 +133,8 @@ const gameBoard = (name) => {
     patrol,
     placeShip,
     receiveAttack,
-    shipsSunk
+    shipsSunk,
+    legalPlacement
   };
 };
 
