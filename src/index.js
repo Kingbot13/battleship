@@ -83,37 +83,26 @@ const game = (() => {
                     }
                 };
             } else if (computerShips < 5 && playerShips >= 5) {
-                const legalPlacement = (arr, location, direction, shipLength) => {
-                    const locationStr = location.toString();
-                    const curr = arr[location];
-                    if (direction === 'horizontal') {
-                        if (parseInt(locationStr[locationStr.length - 1]) + shipLength <= 9) {
-                            for (let i = 0; i < shipLength; i++) {
-                                if (curr + i !== "") {
-                                    return false;
-    
-                                } 
-                            }
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                }
-                for (computerShips; computerShips < shipList.length; computerShips++) {
+               // for (computerShips; computerShips < shipList.length; computerShips++) {
                     // randomly decide direction
-                    try {
-                        let boardCopy = computerBoard.board.filter((square) => square === "");
-                        let computerDirection = Math.random() >= 0.5 ? 'horizontal' : 'vertical';
-                        let location = ai(0, boardCopy.length);
-                        computerBoard.placeShip(computerDirection, ai(0, location), shipList[computerShips]);
+                while (computerShips < 5) {
+                    let boardCopy = computerBoard.board.filter((square) => square === "");
+                    let computerDirection = Math.random() >= 0.5 ? 'horizontal' : 'vertical';
+                    let location = ai(0, boardCopy.length);
+                    if (computerBoard.legalPlacement(boardCopy, location, computerDirection, shipList[computerShips].health.length)) {
+                        computerBoard.placeShip(computerDirection, location, shipList[computerShips]);
                         computerShips++;
-                    } catch (err) {
-                        computerShips--;
-                        console.log(err);
+                        console.log('ship placed');
+                    } else {
+                        // computerShips--;
+                        // console.log(err);
+                        console.log('skipped');
+                        continue;
                     }
-                    
+
                 }
+                    
+              //  }
                 for (let i = 0; i < grid2.childNodes.length; i++) {
                     // temporarily display positions of computer ships for testing
                     if (computerBoard.board[i] !== "") {
