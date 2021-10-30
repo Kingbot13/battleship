@@ -118,4 +118,12 @@ describe("Gameboard reports legal ship placement", () => {
   test("Gameboard returns true if vertical placement is legal", () => {
     expect(computer.legalPlacement(computer.board, 2, 'vertical', 5)).toBe(true);
   })
+
+  test("Gameboard returns false if horizontal placement is illegal", () => {
+    expect(computer.legalPlacement(computer.board, 5, 'horizontal', 5)).toBe(false);
+  })
+
+  test("Gameboard returns false if vertical placement is illegal", () => {
+    expect(computer.legalPlacement(computer.board, 90, 'vertical', 5)).toBe(false);
+  })
 })
