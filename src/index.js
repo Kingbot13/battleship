@@ -123,6 +123,7 @@ const game = (() => {
                     listCopy[i].click();
                     listCopy.splice(i, 1);
                     console.log(computerBoard.shipsSunk);
+                    console.log("carrier", computerBoard.carrier.isSunk());
     
                 } else if (e.target && e.target.classList.contains('player-grid') && computer.isTurn) {
                     playerBoard.receiveAttack(e.target.dataset.id);
