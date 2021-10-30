@@ -82,28 +82,28 @@ const game = (() => {
                         grid1.childNodes[i].classList.add('ship');
                     }
                 };
-            } else if (computerShips < 5 && playerShips >= 5) {
-                // note for later: combine this code with if statement above so that it runs after finishing player setup
-                while (computerShips < 5) {
-                    let boardCopy = computerBoard.board.filter((square) => square === "");
-                    // randomly decide direction
-                    let computerDirection = Math.random() >= 0.5 ? 'horizontal' : 'vertical';
-                    let location = ai(0, boardCopy.length);
-                    if (computerBoard.legalPlacement(boardCopy, location, computerDirection, shipList[computerShips].health.length)) {
-                        computerBoard.placeShip(computerDirection, location, shipList[computerShips]);
-                        computerShips++;
-                    } else {
-                        continue;
+                // randomly place ships for computer player
+                if (computerShips < 5 && playerShips === 5) {
+                    // note for later: combine this code with if statement above so that it runs after finishing player setup
+                    while (computerShips < 5) {
+                        let boardCopy = computerBoard.board.filter((square) => square === "");
+                        // randomly decide direction
+                        let computerDirection = Math.random() >= 0.5 ? 'horizontal' : 'vertical';
+                        let location = ai(0, boardCopy.length);
+                        if (computerBoard.legalPlacement(boardCopy, location, computerDirection, shipList[computerShips].health.length)) {
+                            computerBoard.placeShip(computerDirection, location, shipList[computerShips]);
+                            computerShips++;
+                        } else {
+                            continue;
+                        }
                     }
+                    for (let i = 0; i < grid2.childNodes.length; i++) {
+                        // temporarily display positions of computer ships for testing
+                        if (computerBoard.board[i] !== "") {
+                            grid2.childNodes[i].classList.add('ship');
+                        }
+                    };
                 }
-                for (let i = 0; i < grid2.childNodes.length; i++) {
-                    // temporarily display positions of computer ships for testing
-                    if (computerBoard.board[i] !== "") {
-                        grid2.childNodes[i].classList.add('ship');
-                    }
-                };
-            
-
             } else {
                 if (e.target && e.target.classList.contains('computer-grid') && player1.isTurn) {
                     computerBoard.receiveAttack(e.target.dataset.id);
@@ -122,6 +122,7 @@ const game = (() => {
                     let i = ai(0, listCopy.length);
                     listCopy[i].click();
                     listCopy.splice(i, 1);
+                    console.log(computerBoard.shipsSunk);
     
                 } else if (e.target && e.target.classList.contains('player-grid') && computer.isTurn) {
                     playerBoard.receiveAttack(e.target.dataset.id);
