@@ -100,7 +100,7 @@ describe("Gameboard reports sunken ships", () => {
     }
   })
 
-  test("Gameboard alerts when all ships are sunk", () => {
+  test.skip("Gameboard alerts when all ships are sunk", () => {
     player.receiveAttack(0);
     const alert = jest.fn();
     player.shipsSunk(alert);
@@ -111,7 +111,11 @@ describe("Gameboard reports sunken ships", () => {
 describe("Gameboard reports legal ship placement", () => {
   const computer = gb(computer);
 
-  test("Gameboard returns true if ship placement is legal", () => {
+  test("Gameboard returns true if horizontal ship placement is legal", () => {
     expect(computer.legalPlacement(computer.board, 2, 'horizontal', 5)).toBe(true);
+  })
+
+  test("Gameboard returns true if vertical placement is legal", () => {
+    expect(computer.legalPlacement(computer.board, 2, 'vertical', 5)).toBe(true);
   })
 })

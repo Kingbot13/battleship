@@ -103,10 +103,10 @@ const gameBoard = (name) => {
     }
   }
   const legalPlacement = (arr, location, direction, shipLength) => {
-    console.log('location', location);
-    console.log(location.toString())
+    // console.log('location', location);
+    // console.log(location.toString())
     let locationStr = location.toString();
-    console.log(locationStr);
+    // console.log(locationStr);
     const curr = arr[location];
     if (direction === 'horizontal') {
         if (parseInt(locationStr[locationStr.length - 1]) + shipLength <= 9) {
@@ -116,10 +116,22 @@ const gameBoard = (name) => {
 
                 } 
             }
-            return true;
+            return true; 
         } else {
             return false;
         }
+    } else {
+      // check vertical placement
+      if (location + shipLength * 10 <= 99) {
+        for (let i = 0; i < shipLength; i++) {
+          if (curr + arr[i * 10] !== "") {
+            return false;
+          }
+        }
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
