@@ -84,16 +84,22 @@ const game = (() => {
                 };
                 // randomly place ships for computer player
                 if (computerShips < 5 && playerShips === 5) {
-                    // note for later: combine this code with if statement above so that it runs after finishing player setup
+                    // NOTE: run more tests on legalPlacement as ships are overlapping
                     while (computerShips < 5) {
-                        let boardCopy = computerBoard.board.filter((square) => square === "");
-                        // randomly decide direction
-                        let computerDirection = Math.random() >= 0.5 ? 'horizontal' : 'vertical';
-                        let location = ai(0, boardCopy.length);
-                        if (computerBoard.legalPlacement(boardCopy, location, computerDirection, shipList[computerShips].health.length)) {
-                            computerBoard.placeShip(computerDirection, location, shipList[computerShips]);
-                            computerShips++;
-                        } else {
+                        try {
+                            let boardCopy = computerBoard.board.filter((square) => square === "");
+                            // randomly decide direction
+                            let computerDirection = Math.random() >= 0.5 ? 'horizontal' : 'vertical';
+                            let location = ai(0, boardCopy.length);
+                            if (computerBoard.legalPlacement(boardCopy, location, computerDirection, shipList[computerShips].health.length)) {
+                                computerBoard.placeShip(computerDirection, location, shipList[computerShips]);
+                                computerShips++;
+                            } else {
+                                continue;
+                            }
+
+                        } catch (err) {
+                            console.log(err);
                             continue;
                         }
                     }
