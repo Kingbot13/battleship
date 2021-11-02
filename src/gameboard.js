@@ -1,7 +1,14 @@
 import ship from "./ship";
 
 const gameBoard = (name) => {
-  let shipsSunk = false
+  const shipsSunk = () => {
+    if (battleship.isSunk() && carrier.isSunk() && destroyer.isSunk() && submarine.isSunk() && patrol.isSunk()) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
   const board = [];
   for (let i = 0; i < 100; i++) {
     board.push("");
@@ -94,19 +101,13 @@ const gameBoard = (name) => {
             break;
         }
         board.splice(coordinate, 1, "x");
-        if (battleship.isSunk() && carrier.isSunk() && destroyer.isSunk() && submarine.isSunk() && patrol.isSunk()) {
-          shipsSunk = true;
-        };
       }
     } else {
       throw new Error("Cannot attack the same square twice!");
     }
   }
   const legalPlacement = (arr, location, direction, shipLength) => {
-    // console.log('location', location);
-    // console.log(location.toString())
     let locationStr = location.toString();
-    // console.log(locationStr);
     const curr = arr[location];
     if (direction === 'horizontal') {
         if (parseInt(locationStr[locationStr.length - 1]) + shipLength <= 9) {

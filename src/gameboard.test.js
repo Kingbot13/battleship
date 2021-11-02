@@ -100,11 +100,12 @@ describe("Gameboard reports sunken ships", () => {
     }
   })
 
-  test.skip("Gameboard alerts when all ships are sunk", () => {
-    player.receiveAttack(0);
-    const alert = jest.fn();
-    player.shipsSunk(alert);
-    expect(alert).toBeCalled();
+  test("carrier.isSunk() returns true when carrier sinks", () => {
+    expect(player.carrier.isSunk()).toBe(true);
+  })
+
+  test("Gameboard alerts when all ships are sunk", () => {
+    expect(player.shipsSunk()).toBe(true);
   })
 })
 

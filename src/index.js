@@ -62,6 +62,7 @@ const game = (() => {
                     case 4:
                         playerBoard.placeShip(directionBtn.textContent.toLowerCase(), parseInt(e.target.dataset.id), playerBoard.patrol);
                         playerShips++;
+
                         break;
                 
                     default:
@@ -84,8 +85,6 @@ const game = (() => {
                             if (computerBoard.legalPlacement(boardCopy, location, computerDirection, shipList[computerShips].health.length)) {
                                 computerBoard.placeShip(computerDirection, location, shipList[computerShips]);
                                 computerShips++;
-                            } else {
-                                continue;
                             }
 
                         } catch (err) {
