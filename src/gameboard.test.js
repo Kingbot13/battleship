@@ -126,4 +126,10 @@ describe("Gameboard reports legal ship placement", () => {
   test("Gameboard returns false if vertical placement is illegal", () => {
     expect(computer.legalPlacement(computer.board, 90, 'vertical', 5)).toBe(false);
   })
+
+  test("Gameboard returns false if ships overlap", () => {
+    computer.placeShip('horizontal', 0, computer.carrier);
+    expect(computer.legalPlacement(computer.board, 0, 'horizontal', 4)).toBe(false);
+    expect(computer.legalPlacement(computer.board, 0, 'vertical', 4)).toBe(false);
+  })
 })
