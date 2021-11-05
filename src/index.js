@@ -12,7 +12,11 @@ const game = (() => {
     const computer = player(computer);
     const computerBoard = gb(computerBoard);
     const play = () => {
-        dom(player1, computer, playerBoard, computerBoard, grid, ai, el);
+        let playerShips = 0;
+        let computerShips = 0;
+      
+        document.body.appendChild(dom.display); 
+        el(playerBoard, computerBoard, player1, computer, ai, playerShips, computerShips, dom.directionBtn, dom.grid1, dom.grid2);
     }
     return {play};
 })();
